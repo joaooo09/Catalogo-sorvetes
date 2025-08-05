@@ -1,0 +1,39 @@
+            }
+            
+            // Agrupa sabores iguais e conta suas quantidades
+            const flavorCounts = {};
+            selectedFlavors.forEach(flavor => {
+                flavorCounts[flavor] = (flavorCounts[flavor] || 0) + 1;
+            });
+            
+            // Cria o HTML para os sabores selecionados
+            let flavorsHTML = '';
+            for (const flavor in flavorCounts) {
+                flavorsHTML += `
+                    <div class="selected-flavor">
+                        <span>${flavor} x${flavorCounts[flavor]}</span>
+                        <span>R$ ${(flavorCounts[flavor] * 3).toFixed(2)}</span>
+                    </div>
+                `;
+            }
+            
+            selectedFlavorsContainer.innerHTML = flavorsHTML;
+            
+            // Calcula o total
+            const total = selectedFlavors.length * 3;
+            totalPriceElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+            
+            // Atualiza o link do WhatsApp
+            let whatsappMessage = `Olá Sorvetes do Uai Jão! Gostaria de fazer um pedido:\n\n`;
+            
+            for (const flavor in flavorCounts) {
+                whatsappMessage += `${flavor} x${flavorCounts[flavor]} = R$ ${(flavorCounts[flavor] * 3).toFixed(2)}\n`;
+            }
+            
+            whatsappMessage += `\nTotal: R$ ${total.toFixed(2)}\n\nPor favor, me informe o endereço para entrega.`;
+            
+            whatsappLink.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        }
+    </script>
+</body>
+</html>
